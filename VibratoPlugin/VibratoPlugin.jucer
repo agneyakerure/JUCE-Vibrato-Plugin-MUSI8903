@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT name="VibratoPlugin" projectType="audioplug" buildStandalone="1"
-              jucerVersion="5.2.1">
+              jucerVersion="5.3.0" pluginManufacturer="Rupagneya LLC">
   <MAINGROUP id="igZjMY" name="VibratoPlugin">
     <GROUP id="{8B36062D-1D7E-2F27-1FDA-F18D06C88E44}" name="Source">
       <FILE id="aRrMVd" name="PluginProcessor.cpp" compile="1" resource="0"

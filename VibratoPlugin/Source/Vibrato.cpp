@@ -10,6 +10,7 @@
 
 #include "Lfo.h"
 #include "Vibrato.h"
+#include <iostream>
 
 static const char*  kCVibratoBuildDate             = __DATE__;
 
@@ -54,6 +55,7 @@ CVibrato::~CVibrato ()
 //
 //    return iVersion;
 //}
+
 const char*  CVibrato::getBuildDate ()
 {
     return kCVibratoBuildDate;
@@ -188,7 +190,9 @@ Error_t CVibrato::process( float **ppfInputBuffer, float **ppfOutputBuffer, int 
             m_ppCRingBuff[c]->putPostInc(ppfInputBuffer[c][i]);
 
             ppfOutputBuffer[c][i]   = m_ppCRingBuff[c]->get(fOffset);
+            
             m_ppCRingBuff[c]->getPostInc(); // dummy call to keep write and read idx in sync
+            //std::cout<<ppfInputBuffer[c][i]<<"            "<<ppfOutputBuffer[c][i]<<std::endl;
         }
     }
 
