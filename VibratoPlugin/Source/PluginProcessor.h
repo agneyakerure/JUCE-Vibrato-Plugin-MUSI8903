@@ -57,17 +57,17 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-
-    
+    float fModWidth = 0.05F;
+    float fModFreq  = 7 ; //5-14Hz
 private:
     float **ppfInputBuffer = 0;
     float **ppfOutputBuffer = 0;
     int iNumberOfFrames = 0;
     CVibrato *pCVibrato = 0;
-    float fModWidth = 0.05F;
+    
     float fMaxDelayInSec = 1;
-    float fModFreq  = 7 ; //5-14Hz
-    bool bypass = true;
+    
+    bool bypass = false;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VibratoPluginAudioProcessor)

@@ -17,7 +17,8 @@
 //==============================================================================
 /**
 */
-class VibratoPluginAudioProcessorEditor  : public AudioProcessorEditor
+class VibratoPluginAudioProcessorEditor  : public AudioProcessorEditor,
+public Slider::Listener
 {
 public:
     VibratoPluginAudioProcessorEditor (VibratoPluginAudioProcessor&);
@@ -26,11 +27,13 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
+    void sliderValueChanged(Slider *slider) override;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     VibratoPluginAudioProcessor& processor;
-
+    Slider gainSlider;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VibratoPluginAudioProcessorEditor)
 };
