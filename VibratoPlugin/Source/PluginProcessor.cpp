@@ -26,9 +26,6 @@ VibratoPluginAudioProcessor::VibratoPluginAudioProcessor()
 #endif
 {
     CVibrato::createInstance(pCVibrato);
-    
-    //iNumberOfFrames = samplesPerBlock;
-    
 }
 
 VibratoPluginAudioProcessor::~VibratoPluginAudioProcessor()
@@ -107,8 +104,8 @@ void VibratoPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesP
 
     //int iNumChannels = getTotalNumInputChannels();
     pCVibrato->initInstance(fMaxDelayInSec, getSampleRate(), getTotalNumInputChannels());
-    pCVibrato->setParam(CVibrato::VibratoParam_t::kParamModFreqInHz, 5.0f);
-    pCVibrato->setParam(CVibrato::VibratoParam_t::kParamModWidthInS, 0.01f);
+    pCVibrato->setParam(CVibrato::VibratoParam_t::kParamModFreqInHz, fModFreq);
+    pCVibrato->setParam(CVibrato::VibratoParam_t::kParamModWidthInS, fModWidth);
     
 }
 
@@ -153,7 +150,8 @@ void VibratoPluginAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     
     auto **input = (float **)buffer.getArrayOfReadPointers();
     auto **output = buffer.getArrayOfWritePointers();
-    pCVibrato->process(input, output, buffer.getNumSamples());
+    if(!bypass)
+        pCVibrato->process(input, output, buffer.getNumSamples());
 }
 
 //==============================================================================

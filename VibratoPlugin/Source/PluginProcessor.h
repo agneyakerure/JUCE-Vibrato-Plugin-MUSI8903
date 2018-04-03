@@ -67,6 +67,7 @@ private:
     float fModWidth = 0.05F;
     float fMaxDelayInSec = 1;
     float fModFreq  = 7 ; //5-14Hz
+    bool bypass = true;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VibratoPluginAudioProcessor)
