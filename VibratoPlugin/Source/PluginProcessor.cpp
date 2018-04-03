@@ -10,7 +10,6 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "Vibrato.h"
 
 
 //==============================================================================
@@ -27,12 +26,15 @@ VibratoPluginAudioProcessor::VibratoPluginAudioProcessor()
 #endif
 {
     CVibrato::createInstance(pCVibrato);
+    
     //iNumberOfFrames = samplesPerBlock;
-    pCVibrato->initInstance(fMaxDelayInSec*getSampleRate(), getSampleRate(), getTotalNumInputChannels());
+    
 }
 
 VibratoPluginAudioProcessor::~VibratoPluginAudioProcessor()
 {
+    CVibrato::destroyInstance(pCVibrato);
+    pCVibrato = NULL;
 }
 
 //==============================================================================
@@ -102,21 +104,11 @@ void VibratoPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesP
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    
-    //Error_t initInstance (float fMaxModWidthInS, float fSampleRateInHz, int iNumChannels);
-    
-    int iNumChannels = getTotalNumInputChannels();
-    pCVibrato->setParam(CVibrato::VibratoParam_t::kParamModFreqInHz, fModFreq);
-    pCVibrato->setParam(CVibrato::VibratoParam_t::kParamModWidthInS, fModWidth);
-    
-    ppfInputBuffer = new float*[iNumChannels];
-    ppfOutputBuffer = new float*[iNumChannels];
-    
-    for (int i = 0; i < iNumChannels; i++)
-    {
-        ppfInputBuffer[i] = new float[samplesPerBlock];
-        ppfOutputBuffer[i] = new float[samplesPerBlock];
-    }
+
+    //int iNumChannels = getTotalNumInputChannels();
+    pCVibrato->initInstance(fMaxDelayInSec, getSampleRate(), getTotalNumInputChannels());
+    pCVibrato->setParam(CVibrato::VibratoParam_t::kParamModFreqInHz, 5.0f);
+    pCVibrato->setParam(CVibrato::VibratoParam_t::kParamModWidthInS, 0.01f);
     
 }
 
@@ -156,51 +148,12 @@ void VibratoPluginAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
-
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
     
-    
-//    float* channelData = buffer.getWritePointer (0);
-//    m_CGlottis->process(channelData, channelData, buffer.getNumSamples());
-//    m_CTract->process(channelData, channelData, buffer.getNumSamples());
-//
-//    for (int channel = 1; channel < totalNumInputChannels; channel++) {
-//        float* other_channel_data = buffer.getWritePointer(channel);
-//        memcpy(other_channel_data, channelData, sizeof(float) * buffer.getNumSamples());
-//    }
-    auto* channelData = buffer.getWritePointer (0);
-    
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* inputChannelData = buffer.getReadPointer (channel);
-        
-        auto* channelData = buffer.getWritePointer (channel);
-        
-        memcpy(*ppfInputBuffer, inputChannelData, iNumberOfFrames);
-        pCVibrato->process(ppfInputBuffer, ppfOutputBuffer, iNumberOfFrames);
-        //auto** inputBuffer = buffer.getArrayOfReadPointers();
-        memcpy(channelData, *ppfOutputBuffer, iNumberOfFrames);
-//        for(int sample = 0; sample < buffer.getNumSamples(); sample++)
-//        {
-//
-//            //channelData[sample] = buffer.getSample(channel, sample);
-//
-//
-//        }
-    }
+    auto **input = (float **)buffer.getArrayOfReadPointers();
+    auto **output = buffer.getArrayOfWritePointers();
+    pCVibrato->process(input, output, buffer.getNumSamples());
 }
 
 //==============================================================================

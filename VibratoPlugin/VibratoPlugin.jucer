@@ -16,8 +16,8 @@
       <FILE id="z9LcYT" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>
       <FILE id="dD7D2r" name="Synthesis.h" compile="0" resource="0" file="Source/Synthesis.h"/>
       <FILE id="Sdlxbx" name="Util.h" compile="0" resource="0" file="Source/Util.h"/>
-      <FILE id="Z1wF7B" name="Vibrato.cpp" compile="1" resource="0" file="Source/Vibrato.cpp"/>
-      <FILE id="x2QXxJ" name="Vibrato.h" compile="0" resource="0" file="Source/Vibrato.h"/>
+      <FILE id="pusgsJ" name="Vibrato.cpp" compile="1" resource="0" file="Source/Vibrato.cpp"/>
+      <FILE id="fD1F8Q" name="Vibrato.h" compile="0" resource="0" file="Source/Vibrato.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

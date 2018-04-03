@@ -1,16 +1,9 @@
-
-// standard headers
-
-// project headers
-//#include "MUSI6106Config.h"
-
 #include "ErrorDef.h"
 
 #include "RingBuffer.h"
 
 #include "Lfo.h"
 #include "Vibrato.h"
-#include <iostream>
 
 static const char*  kCVibratoBuildDate             = __DATE__;
 
@@ -33,10 +26,10 @@ CVibrato::~CVibrato ()
     this->resetInstance ();
 }
 
-//const int  CVibrato::getVersion (const Version_t eVersionIdx)
-//{
-//    int iVersion = 0;
-//
+const int  CVibrato::getVersion (const Version_t eVersionIdx)
+{
+    int iVersion = 0;
+
 //    switch (eVersionIdx)
 //    {
 //    case kMajor:
@@ -52,10 +45,9 @@ CVibrato::~CVibrato ()
 //        iVersion    = -1;
 //        break;
 //    }
-//
-//    return iVersion;
-//}
 
+    return iVersion;
+}
 const char*  CVibrato::getBuildDate ()
 {
     return kCVibratoBuildDate;
@@ -190,9 +182,7 @@ Error_t CVibrato::process( float **ppfInputBuffer, float **ppfOutputBuffer, int 
             m_ppCRingBuff[c]->putPostInc(ppfInputBuffer[c][i]);
 
             ppfOutputBuffer[c][i]   = m_ppCRingBuff[c]->get(fOffset);
-            
             m_ppCRingBuff[c]->getPostInc(); // dummy call to keep write and read idx in sync
-            //std::cout<<ppfInputBuffer[c][i]<<"            "<<ppfOutputBuffer[c][i]<<std::endl;
         }
     }
 
