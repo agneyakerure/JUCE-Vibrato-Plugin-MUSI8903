@@ -33,6 +33,13 @@ VibratoPluginAudioProcessorEditor::VibratoPluginAudioProcessorEditor (VibratoPlu
     widthSlider.setRange(0.001, 0.02);
     widthSlider.addListener(this);
     addAndMakeVisible(widthSlider);
+    
+    setSize (600, 110);
+    addAndMakeVisible (bypassButton);
+    bypassButton.setButtonText ("Bypass");
+    
+    
+    
 }
 
 VibratoPluginAudioProcessorEditor::~VibratoPluginAudioProcessorEditor()
@@ -59,6 +66,11 @@ void VibratoPluginAudioProcessorEditor::resized()
     widthSlider.setBounds(getLocalBounds());
 }
 
+void buttonClicked (Button* button)
+{
+    
+}
+
 void VibratoPluginAudioProcessorEditor::sliderValueChanged(Slider *slider){
     if(slider == &frequencySlider)
     {
@@ -73,4 +85,5 @@ void VibratoPluginAudioProcessorEditor::sliderValueChanged(Slider *slider){
         //DBG(std::to_string(frequencySlider.getValue()));
         processor.setVibratoParameter(CVibrato::kParamModWidthInS, (float)slider->getValue());
     }
+    
 }

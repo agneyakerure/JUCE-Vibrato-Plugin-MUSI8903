@@ -18,7 +18,8 @@
 /**
 */
 class VibratoPluginAudioProcessorEditor  : public AudioProcessorEditor,
-public Slider::Listener
+public Slider::Listener,
+public Button::Listener
 {
 public:
     VibratoPluginAudioProcessorEditor (VibratoPluginAudioProcessor&);
@@ -34,6 +35,7 @@ private:
     // access the processor object that created it.
     VibratoPluginAudioProcessor& processor;
     Slider frequencySlider, widthSlider;
+    TextButton bypassButton;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VibratoPluginAudioProcessorEditor)
 };
