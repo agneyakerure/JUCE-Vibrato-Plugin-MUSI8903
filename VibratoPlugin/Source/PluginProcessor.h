@@ -61,11 +61,12 @@ public:
     void setBypass(bool buttonState);
     bool getBypass();
     AudioProcessorValueTreeState parameters;
+    float fModWidth = 0.001f;
+    float fModFreq  = 5; //5-14Hz
     
 private:
     CVibrato *pCVibrato = 0;
-    float fModWidth = 0.001f;
-    float fModFreq  = 5; //5-14Hz
+    
     float fMaxDelayInSec = 1;
     bool bypass = false;
     

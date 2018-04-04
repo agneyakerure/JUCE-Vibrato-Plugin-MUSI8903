@@ -41,6 +41,7 @@ private:
     
     ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> frequencySliderAttach;
     ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> widthSliderAttach;
+    ScopedPointer <AudioProcessorValueTreeState::ButtonAttachment> bypassButtonAttach;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VibratoPluginAudioProcessorEditor)
 };

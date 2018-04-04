@@ -22,6 +22,7 @@ VibratoPluginAudioProcessorEditor::VibratoPluginAudioProcessorEditor (VibratoPlu
     
     frequencySliderAttach = new AudioProcessorValueTreeState::SliderAttachment(processor.parameters, "frequencySliderID", frequencySlider);
     widthSliderAttach = new AudioProcessorValueTreeState::SliderAttachment(processor.parameters, "widthSliderID", widthSlider);
+    bypassButtonAttach = new AudioProcessorValueTreeState::ButtonAttachment(processor.parameters, "bypassButtonID", bypassButton);
     
     frequencySlider.setSliderStyle(Slider::SliderStyle::Rotary);
     frequencySlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
@@ -79,11 +80,13 @@ void VibratoPluginAudioProcessorEditor::sliderValueChanged(Slider *slider)
     if(slider == &frequencySlider)
     {
         processor.setVibratoParameter(CVibrato::kParamModFreqInHz, (float)slider->getValue());
+        processor.fModFreq = (float)slider->getValue();
     }
     
     if(slider == &widthSlider)
     {
         processor.setVibratoParameter(CVibrato::kParamModWidthInS, (float)slider->getValue());
+        processor.fModWidth = (float)slider->getValue();
     }
 
 }

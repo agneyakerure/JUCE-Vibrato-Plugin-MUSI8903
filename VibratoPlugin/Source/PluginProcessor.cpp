@@ -33,6 +33,9 @@ VibratoPluginAudioProcessor::VibratoPluginAudioProcessor()
     NormalisableRange<float> widthRange(0.001f, 0.02f);
     parameters.createAndAddParameter("widthSliderID", "widthSlider", "widthSlider", widthRange, 0.001f, nullptr, nullptr);
     
+    NormalisableRange<float> buttonState(0.0f, 1.0f);
+    parameters.createAndAddParameter("bypassButtonID", "bypassButton", "bypassButton", buttonState, 0, nullptr, nullptr);
+    
     parameters.state = ValueTree("savedParams");
 }
 
@@ -157,8 +160,8 @@ void VibratoPluginAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     //DBG(std::to_string(pCVibrato->getParam(CVibrato::kParamModFreqInHz)));
     auto **input = (float **)buffer.getArrayOfReadPointers();
     auto **output = buffer.getArrayOfWritePointers();
-    if(!bypass)
-        pCVibrato->process(input, output, buffer.getNumSamples());
+    //if(!bypass)
+    pCVibrato->process(input, output, buffer.getNumSamples());
 }
 
 //==============================================================================
@@ -179,7 +182,14 @@ void VibratoPluginAudioProcessor::setVibratoParameter (CVibrato::VibratoParam_t 
 
 void VibratoPluginAudioProcessor::setBypass(bool buttonState)
 {
-    bypass = buttonState;
+    if(buttonState == true)
+    {
+        pCVibrato->setParam(CVibrato::kParamModFreqInHz, 0);
+    }
+    else
+    {
+        pCVibrato->setParam(CVibrato::kParamModFreqInHz, fModFreq);
+    }
 }
 
 bool VibratoPluginAudioProcessor::getBypass()
