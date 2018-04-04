@@ -139,7 +139,6 @@ bool VibratoPluginAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 
 void VibratoPluginAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -147,6 +146,7 @@ void VibratoPluginAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
+    //DBG(std::to_string(pCVibrato->getParam(CVibrato::kParamModFreqInHz)));
     auto **input = (float **)buffer.getArrayOfReadPointers();
     auto **output = buffer.getArrayOfWritePointers();
     if(!bypass)
@@ -164,7 +164,7 @@ AudioProcessorEditor* VibratoPluginAudioProcessor::createEditor()
     return new VibratoPluginAudioProcessorEditor (*this);
 }
 
-void VibratoPluginAudioProcessor::setParameter (CVibrato::VibratoParam_t eParam, float fParamValue)
+void VibratoPluginAudioProcessor::setVibratoParameter (CVibrato::VibratoParam_t eParam, float fParamValue)
 {
     pCVibrato->setParam(eParam, fParamValue);
 }

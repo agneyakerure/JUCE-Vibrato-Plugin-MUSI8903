@@ -33,7 +33,7 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     VibratoPluginAudioProcessor& processor;
-    Slider gainSlider;
+    Slider frequencySlider, widthSlider;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VibratoPluginAudioProcessorEditor)
 };

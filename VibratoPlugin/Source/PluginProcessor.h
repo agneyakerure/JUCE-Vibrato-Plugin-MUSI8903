@@ -57,16 +57,16 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     //Error_t setParam (VibratoParam_t eParam, float fParamValue);
-    void setParameter (CVibrato::VibratoParam_t eParam, float fParamValue);
+    void setVibratoParameter (CVibrato::VibratoParam_t eParam, float fParamValue);
     void setBypass();
     bool getBypass();
 
     
 private:
     CVibrato *pCVibrato = 0;
-    float fModWidth = 0.05F;
-    float fModFreq  = 7 ; //5-14Hz
-    float fMaxDelayInSec = 1;
+    float fModWidth = 0.005F;
+    float fModFreq  = 5; //5-14Hz
+    float fMaxDelayInSec = 0.01;
     bool bypass = false;
     
     //==============================================================================

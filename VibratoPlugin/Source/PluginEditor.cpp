@@ -19,11 +19,20 @@ VibratoPluginAudioProcessorEditor::VibratoPluginAudioProcessorEditor (VibratoPlu
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
-    gainSlider.setSliderStyle(Slider::SliderStyle::Rotary);
-    gainSlider.setValue(0.5);
-    gainSlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
-    gainSlider.setRange(5, 14);
-    addAndMakeVisible(gainSlider);
+    frequencySlider.setSliderStyle(Slider::SliderStyle::Rotary);
+    frequencySlider.setValue(5);
+    frequencySlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
+    frequencySlider.setRange(5, 14);
+    frequencySlider.addListener(this);
+    addAndMakeVisible(frequencySlider);
+    
+    setSize (400, 300);
+    widthSlider.setSliderStyle(Slider::SliderStyle::Rotary);
+    widthSlider.setValue(0.001);
+    widthSlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
+    widthSlider.setRange(0.001, 0.02);
+    widthSlider.addListener(this);
+    addAndMakeVisible(widthSlider);
 }
 
 VibratoPluginAudioProcessorEditor::~VibratoPluginAudioProcessorEditor()
@@ -46,11 +55,22 @@ void VibratoPluginAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    gainSlider.setBounds(getLocalBounds());
+    frequencySlider.setBounds(getLocalBounds());
+    widthSlider.setBounds(getLocalBounds());
 }
 
 void VibratoPluginAudioProcessorEditor::sliderValueChanged(Slider *slider){
-    if(slider == &gainSlider){
-        processor.setParameter(CVibrato::kParamModFreqInHz, gainSlider.getValue());
+    if(slider == &frequencySlider)
+    {
+        //DBG(std::to_string(pCVibrato->getParam(CVibrato::kParamModFreqInHz)));
+        //DBG(std::to_string(frequencySlider.getValue()));
+        processor.setVibratoParameter(CVibrato::kParamModFreqInHz, (float)slider->getValue());
+    }
+    
+    if(slider == &widthSlider)
+    {
+        //DBG(std::to_string(pCVibrato->getParam(CVibrato::kParamModFreqInHz)));
+        //DBG(std::to_string(frequencySlider.getValue()));
+        processor.setVibratoParameter(CVibrato::kParamModWidthInS, (float)slider->getValue());
     }
 }
