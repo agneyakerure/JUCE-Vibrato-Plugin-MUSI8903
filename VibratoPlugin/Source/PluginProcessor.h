@@ -60,13 +60,15 @@ public:
     void setVibratoParameter (CVibrato::VibratoParam_t eParam, float fParamValue);
     void setBypass(bool buttonState);
     bool getBypass();
+    AudioProcessorValueTreeState parameters;
     
 private:
     CVibrato *pCVibrato = 0;
-    float fModWidth = 0.005F;
+    float fModWidth = 0.001f;
     float fModFreq  = 5; //5-14Hz
     float fMaxDelayInSec = 1;
     bool bypass = false;
+    
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VibratoPluginAudioProcessor)

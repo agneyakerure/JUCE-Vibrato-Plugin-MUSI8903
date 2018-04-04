@@ -18,24 +18,33 @@ VibratoPluginAudioProcessorEditor::VibratoPluginAudioProcessorEditor (VibratoPlu
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (600, 400);
+    setSize (300, 200);
+    
+    frequencySliderAttach = new AudioProcessorValueTreeState::SliderAttachment(processor.parameters, "frequencySliderID", frequencySlider);
+    widthSliderAttach = new AudioProcessorValueTreeState::SliderAttachment(processor.parameters, "widthSliderID", widthSlider);
     
     frequencySlider.setSliderStyle(Slider::SliderStyle::Rotary);
-    frequencySlider.setValue(5);
+    //frequencySlider.setValue(5);
     frequencySlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
     frequencySlider.setRange(5, 14);
     frequencySlider.addListener(this);
     addAndMakeVisible(frequencySlider);
+    freqLabel.setText("Mod Freq", dontSendNotification);
+    freqLabel.attachToComponent(&frequencySlider, false);
+    
     
     widthSlider.setSliderStyle(Slider::SliderStyle::Rotary);
-    widthSlider.setValue(0.001);
+    //widthSlider.setValue(0.001);
     widthSlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
     widthSlider.setRange(0.001, 0.02);
     widthSlider.addListener(this);
     addAndMakeVisible(widthSlider);
+    widthLabel.setText("Mod Width", dontSendNotification);
+    widthLabel.attachToComponent(&widthSlider, false);
+    
     
     bypassButton.setButtonText ("Bypass");
-    bypassButton.setToggleState(0, dontSendNotification);
+    //bypassButton.setToggleState(0, dontSendNotification);
     bypassButton.addListener(this);
     addAndMakeVisible(bypassButton);
 }
@@ -59,13 +68,10 @@ void VibratoPluginAudioProcessorEditor::paint (Graphics& g)
 
 void VibratoPluginAudioProcessorEditor::resized()
 {
-    const int border = 20;
-    const int dialWidth = getWidth()/2 - border;
-    const int dialHeight = getHeight()/2 - border;
-    
-    frequencySlider.setBounds(border, border, dialWidth, dialHeight);
-    widthSlider.setBounds((getWidth() / 2), border, dialWidth, dialHeight);
-    bypassButton.setBounds(border, 80, 50, 20);
+    frequencySlider.setBounds(-20,20,200,150);
+    widthSlider.setBounds(120,20,200,150);
+    bypassButton.setBounds(0,0,100,25);
+    //freqLabel.setBounds(<#int x#>, <#int y#>, <#int width#>, <#int height#>)
 }
 
 void VibratoPluginAudioProcessorEditor::buttonClicked(Button* button)

@@ -22,10 +22,18 @@ VibratoPluginAudioProcessor::VibratoPluginAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+                    parameters(*this, nullptr)
 #endif
 {
     CVibrato::createInstance(pCVibrato);
+    NormalisableRange<float> frequencyRange(5.0f, 14.0f);
+    parameters.createAndAddParameter("frequencySliderID", "frequencySlider", "frequencySlider", frequencyRange, 5.0f, nullptr, nullptr);
+    
+    NormalisableRange<float> widthRange(0.001f, 0.02f);
+    parameters.createAndAddParameter("widthSliderID", "widthSlider", "widthSlider", widthRange, 0.001f, nullptr, nullptr);
+    
+    parameters.state = ValueTree("savedParams");
 }
 
 VibratoPluginAudioProcessor::~VibratoPluginAudioProcessor()
@@ -182,15 +190,21 @@ bool VibratoPluginAudioProcessor::getBypass()
 //==============================================================================
 void VibratoPluginAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    ScopedPointer<XmlElement> xml (parameters.state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void VibratoPluginAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    ScopedPointer<XmlElement> savedParameters (getXmlFromBinary(data, sizeInBytes));
+    
+    if(savedParameters != nullptr)
+    {
+        if(savedParameters->hasTagName(parameters.state.getType()))
+        {
+            parameters.state = ValueTree::fromXml(*savedParameters);
+        }
+    }
 }
 
 //==============================================================================

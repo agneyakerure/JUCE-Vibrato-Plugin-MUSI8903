@@ -37,6 +37,10 @@ private:
     VibratoPluginAudioProcessor& processor;
     Slider frequencySlider, widthSlider;
     ToggleButton bypassButton;
+    Label freqLabel, widthLabel;
+    
+    ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> frequencySliderAttach;
+    ScopedPointer <AudioProcessorValueTreeState::SliderAttachment> widthSliderAttach;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VibratoPluginAudioProcessorEditor)
 };
