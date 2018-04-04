@@ -22,6 +22,7 @@ VibratoPluginAudioProcessorEditor::VibratoPluginAudioProcessorEditor (VibratoPlu
     gainSlider.setSliderStyle(Slider::SliderStyle::Rotary);
     gainSlider.setValue(0.5);
     gainSlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
+    gainSlider.setRange(5, 14);
     addAndMakeVisible(gainSlider);
 }
 
@@ -50,6 +51,6 @@ void VibratoPluginAudioProcessorEditor::resized()
 
 void VibratoPluginAudioProcessorEditor::sliderValueChanged(Slider *slider){
     if(slider == &gainSlider){
-        processor.fModFreq = gainSlider.getValue();
+        processor.setParameter(CVibrato::kParamModFreqInHz, gainSlider.getValue());
     }
 }
