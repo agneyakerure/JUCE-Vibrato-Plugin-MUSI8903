@@ -169,6 +169,16 @@ void VibratoPluginAudioProcessor::setVibratoParameter (CVibrato::VibratoParam_t 
     pCVibrato->setParam(eParam, fParamValue);
 }
 
+void VibratoPluginAudioProcessor::setBypass(bool buttonState)
+{
+    bypass = buttonState;
+}
+
+bool VibratoPluginAudioProcessor::getBypass()
+{
+    return bypass;
+}
+
 //==============================================================================
 void VibratoPluginAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
