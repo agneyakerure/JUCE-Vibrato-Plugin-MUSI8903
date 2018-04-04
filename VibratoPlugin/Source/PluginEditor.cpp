@@ -18,7 +18,8 @@ VibratoPluginAudioProcessorEditor::VibratoPluginAudioProcessorEditor (VibratoPlu
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (600, 400);
+    
     frequencySlider.setSliderStyle(Slider::SliderStyle::Rotary);
     frequencySlider.setValue(5);
     frequencySlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
@@ -27,6 +28,13 @@ VibratoPluginAudioProcessorEditor::VibratoPluginAudioProcessorEditor (VibratoPlu
     addAndMakeVisible(frequencySlider);
     
     setSize (400, 300);
+    widthSlider.setSliderStyle(Slider::SliderStyle::Rotary);
+    widthSlider.setValue(0.001);
+    widthSlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
+    widthSlider.setRange(0.001, 0.02);
+    widthSlider.addListener(this);
+    addAndMakeVisible(frequencySlider);
+    
     widthSlider.setSliderStyle(Slider::SliderStyle::Rotary);
     widthSlider.setValue(0.001);
     widthSlider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 25);
@@ -51,19 +59,30 @@ void VibratoPluginAudioProcessorEditor::paint (Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
-
     g.setColour (Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+    //g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
     
 }
 
 void VibratoPluginAudioProcessorEditor::resized()
+<<<<<<< HEAD
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     frequencySlider.setBounds(getLocalBounds());
     widthSlider.setBounds(getLocalBounds());
+=======
+{
+    // This is generally where you'll want to lay out the positions of any
+    // subcomponents in your editor..
+    const int border = 20;
+    const int dialWidth = getWidth()/2 - border;
+    const int dialHeight = getHeight()/2 - border;
+    
+    frequencySlider.setBounds(border, border, dialWidth, dialHeight);
+    widthSlider.setBounds((getWidth() / 2), border, dialWidth, dialHeight);
+>>>>>>> d07aba527b831d67450f531526b00354d7bda539
 }
 
 void buttonClicked (Button* button)
